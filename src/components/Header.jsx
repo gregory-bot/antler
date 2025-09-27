@@ -14,7 +14,6 @@ const Header = () => {
 
   const navItems = [
     { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
     { name: 'Picture Catalog', href: '#catalog' },
     { name: 'Profile', href: '#profile' },
     { name: 'News', href: '#news' },
@@ -35,7 +34,7 @@ const Header = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="text-2xl text-black">Kamsa Poultry</span>
+            <span className="text-2xl font-bold text-black">Kamsa Poultry</span>
           </div>
 
           {/* Desktop Navigation */}

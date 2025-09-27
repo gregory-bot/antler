@@ -6,7 +6,7 @@ const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const heroImages = [
-    "https://i.pinimg.com/736x/b4/ee/83/b4ee8346940988b2257747f2da216e3b.jpg",
+    "https://i.postimg.cc/vTXZpyGy/amsa.jpg",
     "https://i.pinimg.com/736x/49/a6/6b/49a66be88d0d9b9c8dcccb1fee940e80.jpg"
   ];
 
@@ -40,7 +40,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-4xl lg:text-4xl text-gray-900 mb-6 leading-tight"
+              className="text-4xl lg:text-4xl font-bold text-gray-900 mb-6 leading-tight"
             >
               Kamsa Poultry
             </motion.h1>
@@ -49,7 +49,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-xl lg:text-2xl text-gray-600 mb-8 leading-relaxed"
+              className="text-xl lg:text-2xl font-semibold text-gray-600 mb-8 leading-relaxed"
             >
               Leading poultry farm providing premium quality chickens, eggs, and poultry products. 
               Committed to sustainable farming practices and exceptional customer service.
