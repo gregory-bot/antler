@@ -7,55 +7,69 @@ const PictureCatalog = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const categories = [
-    { id: 'all', name: 'All' },
-    { id: 'chickens', name: 'Chickens' },
-    { id: 'eggs', name: 'Eggs' },
-    { id: 'farm', name: 'Farm' },
-    { id: 'products', name: 'Products' }
+    { id: 'all', name: 'All Eggs' },
+    { id: 'fresh', name: 'Fresh Eggs' },
+    { id: 'organic', name: 'Organic Eggs' },
+    { id: 'free-range', name: 'Free Range' },
+    { id: 'packaging', name: 'Packaging' }
   ];
 
   const images = [
     {
       id: 1,
-      src: "https://images.pexels.com/photos/1300550/pexels-photo-1300550.jpeg",
-      title: "Free Range Chickens",
-      category: "chickens",
-      description: "Healthy free-range chickens in natural environment"
+      src: "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg",
+      title: "Fresh Farm Eggs",
+      category: "fresh",
+      description: "Daily collected fresh eggs from our healthy chickens"
     },
     {
       id: 2,
-      src: "https://images.pexels.com/photos/1300551/pexels-photo-1300551.jpeg",
-      title: "Fresh Farm Eggs",
-      category: "eggs",
-      description: "Premium quality fresh eggs from our farm"
+      src: "https://media.istockphoto.com/id/451505631/photo/two-eggs-isolated-on-white.jpg?b=1&s=612x612&w=0&k=20&c=1mYlwbxZN8SNrGiF8vHtdv8HQVKkKnjxqFc-4Uq4414=",
+      title: "Organic Brown Eggs",
+      category: "organic",
+      description: "Premium organic brown eggs with rich nutritional value"
     },
     {
       id: 3,
-      src: "https://images.pexels.com/photos/1300552/pexels-photo-1300552.jpeg",
-      title: "Modern Farm Facility",
-      category: "farm",
-      description: "State-of-the-art poultry farming facilities"
+      src: "https://images.pexels.com/photos/29051725/pexels-photo-29051725.jpeg",
+      title: "Free Range Eggs",
+      category: "free-range",
+      description: "Eggs from free-range chickens with natural diet"
     },
     {
       id: 4,
-      src: "https://images.pexels.com/photos/1300553/pexels-photo-1300553.jpeg",
-      title: "Organic Feed",
-      category: "products",
-      description: "Premium organic feed for healthy chickens"
+      src: "https://images.pexels.com/photos/31424889/pexels-photo-31424889.jpeg",
+      title: "Egg Packaging",
+      category: "packaging",
+      description: "Secure and hygienic egg packaging process"
     },
     {
       id: 5,
-      src: "https://images.pexels.com/photos/1300554/pexels-photo-1300554.jpeg",
-      title: "Broiler Chickens",
-      category: "chickens",
-      description: "High-quality broiler chickens for meat production"
+      src: "https://i.pinimg.com/736x/f9/51/26/f951260399774b33242b0a6c6498c74f.jpg",
+      title: "Egg Quality Check",
+      category: "fresh",
+      description: "Rigorous quality control for every batch of eggs"
     },
     {
       id: 6,
-      src: "https://images.pexels.com/photos/1300555/pexels-photo-1300555.jpeg",
-      title: "Egg Collection",
-      category: "eggs",
-      description: "Daily egg collection process"
+      src: "https://i.pinimg.com/736x/56/a4/58/56a458568a6036ef69954cf2f0703c78.jpg",
+      title: "Egg Cartons",
+      category: "packaging",
+      description: "Eco-friendly egg cartons for safe transportation"
+    },
+    {
+      id: 7,
+      src: "https://i.pinimg.com/736x/3d/bd/fd/3dbdfde20c5dac635f2a30feac7577b3.jpg",
+      title: "White Eggs Collection",
+      category: "fresh",
+      description: "Premium white eggs with excellent shell quality"
+    },
+    {
+      id: 8,
+      src: "https://th.bing.com/th/id/R.08defb625bea0c20cbd0288f33dca583?rik=GEkfPVlQeK9F3g&pid=ImgRaw&r=0&sres=1&sresct=1",
+      title: "Farm Fresh Delivery",
+      category: "fresh",
+      description: "Direct farm-to-table fresh egg delivery"
     }
   ];
 
@@ -74,11 +88,12 @@ const PictureCatalog = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Picture Catalog
+            Egg Catalog
           </h2>
           <div className="w-24 h-1 bg-green-600 mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Explore our comprehensive collection of poultry farm images showcasing our facilities, products, and processes.
+            Explore our eggs collection featuring fresh, organic, and free-range eggs. 
+            Quality you can see, freshness you can trust.
           </p>
         </motion.div>
 
@@ -162,8 +177,7 @@ const PictureCatalog = () => {
                 </p>
               </div>
             </div>
-          </div>
-        )}
+          </div>        )}
       </div>
     </section>
   );

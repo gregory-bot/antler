@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import Services from './components/Services';
 import PictureCatalog from './components/PictureCatalog';
 import Profile from './components/Profile';
 import News from './components/News';
@@ -18,7 +17,6 @@ function App() {
       
       <main>
         <Hero />
-        <Services />
         <PictureCatalog />
         <Profile />
         <News />

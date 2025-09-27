@@ -8,7 +8,7 @@ const News = () => {
       id: 1,
       title: "Kamsa Poultry Wins Regional Excellence Award",
       excerpt: "We are proud to announce that Kamsa Poultry has been recognized with the Regional Excellence Award for outstanding contribution to sustainable poultry farming.",
-      image: "https://images.pexels.com/photos/1300550/pexels-photo-1300550.jpeg",
+      image: "https://tse3.mm.bing.net/th/id/OIP.Lt8PkKo5T5Cb4MN_rpwn9QHaEK?rs=1&pid=ImgDetMain&o=7&rm=3",
       date: "2024-01-15",
       author: "John Kamsa",
       category: "Awards",
@@ -18,7 +18,7 @@ const News = () => {
       id: 2,
       title: "New Organic Feed Program Launched",
       excerpt: "Introducing our new organic feed program designed to enhance the nutritional value of our poultry products while maintaining sustainable farming practices.",
-      image: "https://images.pexels.com/photos/1300551/pexels-photo-1300551.jpeg",
+      image: "https://i.pinimg.com/736x/97/ec/cc/97eccc1314c8eed9e95b85d8bc7a5a54.jpg",
       date: "2024-01-10",
       author: "Sarah Kamsa",
       category: "Innovation",
@@ -28,7 +28,7 @@ const News = () => {
       id: 3,
       title: "Expansion of Farm Facilities Completed",
       excerpt: "Our state-of-the-art facility expansion is now complete, allowing us to increase production capacity while maintaining our high standards of animal welfare.",
-      image: "https://images.pexels.com/photos/1300552/pexels-photo-1300552.jpeg",
+      image: "https://i.pinimg.com/1200x/cb/57/4a/cb574a60d19a54677721df88df0574c2.jpg",
       date: "2024-01-05",
       author: "Operations Team",
       category: "Expansion",
@@ -38,31 +38,11 @@ const News = () => {
       id: 4,
       title: "Community Outreach Program Success",
       excerpt: "Our recent community outreach program has successfully trained over 100 local farmers in modern poultry farming techniques and sustainable practices.",
-      image: "https://images.pexels.com/photos/1300553/pexels-photo-1300553.jpeg",
+      image: "https://i.pinimg.com/736x/a7/49/63/a74963e5dfc28d2beb86edff0deeb13d.jpg",
       date: "2023-12-28",
       author: "Community Team",
       category: "Community",
       readTime: "3 min read"
-    },
-    {
-      id: 5,
-      title: "Partnership with Local Veterinary College",
-      excerpt: "We've established a strategic partnership with the local veterinary college to enhance our animal health programs and provide internship opportunities.",
-      image: "https://images.pexels.com/photos/1300554/pexels-photo-1300554.jpeg",
-      date: "2023-12-20",
-      author: "Dr. Michael Chen",
-      category: "Partnership",
-      readTime: "4 min read"
-    },
-    {
-      id: 6,
-      title: "Holiday Season Special Offers",
-      excerpt: "Celebrate the holiday season with our special offers on premium poultry products. Fresh, quality guaranteed products for your festive celebrations.",
-      image: "https://images.pexels.com/photos/1300555/pexels-photo-1300555.jpeg",
-      date: "2023-12-15",
-      author: "Marketing Team",
-      category: "Promotions",
-      readTime: "2 min read"
     }
   ];
 
@@ -138,11 +118,6 @@ const News = () => {
                     <Tag className="w-4 h-4 mr-1" />
                     {article.readTime}
                   </span>
-                  
-                  <button className="flex items-center text-green-600 hover:text-green-700 font-medium transition-colors duration-300">
-                    Read More
-                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" />
-                  </button>
                 </div>
               </div>
             </motion.article>
@@ -157,9 +132,6 @@ const News = () => {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
-            Load More Articles
-          </button>
         </motion.div>
       </div>
     </section>

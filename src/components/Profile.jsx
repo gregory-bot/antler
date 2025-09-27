@@ -3,30 +3,24 @@ import { motion } from 'framer-motion';
 import { Award, Users, Calendar, MapPin, Phone, Mail } from 'lucide-react';
 
 const Profile = () => {
-  const stats = [
-    { icon: Calendar, label: "Years in Business", value: "10+" },
-    { icon: Users, label: "Happy Customers", value: "500+" },
-    { icon: Award, label: "Awards Won", value: "15+" },
-    { icon: MapPin, label: "Locations", value: "3" }
-  ];
 
   const team = [
     {
       name: "John Kamsa",
       role: "Founder & CEO",
-      image: "https://images.pexels.com/photos/1300550/pexels-photo-1300550.jpeg",
+      image: "https://tse2.mm.bing.net/th/id/OIP.0BoDOiHSs8Gk_BRacu755QHaFm?rs=1&pid=ImgDetMain&o=7&rm=3",
       description: "With over 15 years of experience in poultry farming, John founded Kamsa Poultry with a vision to provide premium quality poultry products."
     },
     {
       name: "Sarah Kamsa",
       role: "Operations Manager",
-      image: "https://images.pexels.com/photos/1300551/pexels-photo-1300551.jpeg",
+      image: "https://hybridpoultryfarm.com/wp-content/uploads/2023/09/Hybrid-Zambia-card-2-350x350.jpeg",
       description: "Sarah oversees daily operations and ensures our high standards of quality and customer service are maintained across all departments."
     },
     {
       name: "Dr. Michael Chen",
       role: "Veterinary Consultant",
-      image: "https://images.pexels.com/photos/1300552/pexels-photo-1300552.jpeg",
+      image: "https://www.reportingoilandgas.org/wp-content/uploads/Eni-poultry-demonstration-farm.jpg",
       description: "Dr. Chen provides expert veterinary care and ensures the health and welfare of all our poultry through regular health monitoring."
     }
   ];
@@ -60,20 +54,19 @@ const Profile = () => {
           >
             <h3 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Founded in 2014, Kamsa Poultry Farm began as a small family business with a passion for 
+              Kamsa Poultry Farm began as a small family business with a passion for 
               sustainable poultry farming. Over the years, we have grown into one of the region's most 
               trusted suppliers of premium poultry products.
             </p>
             <p className="text-gray-600 mb-6 leading-relaxed">
               Our commitment to quality, animal welfare, and customer satisfaction has been the 
-              cornerstone of our success. We employ modern farming techniques while maintaining 
-              traditional values of care and dedication.
+              cornerstone of our success.
             </p>
             
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-green-600" />
-                <span className="text-gray-700">+254 700 123 456</span>
+                <span className="text-gray-700">+254 748163492</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-green-600" />
@@ -81,7 +74,7 @@ const Profile = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-green-600" />
-                <span className="text-gray-700">Nairobi, Kenya</span>
+                <span className="text-gray-700">Sinyolo, Kisumu</span>
               </div>
             </div>
           </motion.div>
@@ -94,43 +87,13 @@ const Profile = () => {
             className="relative"
           >
             <img
-              src="https://images.pexels.com/photos/1300550/pexels-photo-1300550.jpeg"
+              src="https://i.pinimg.com/736x/b4/ee/83/b4ee8346940988b2257747f2da216e3b.jpg"
               alt="Kamsa Poultry Farm"
               className="w-full h-96 object-cover rounded-2xl shadow-lg"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-2xl"></div>
           </motion.div>
         </div>
-
-        {/* Stats */}
-        <div className="grid md:grid-cols-4 gap-8 mb-20">
-          {stats.map((stat, index) => {
-            const IconComponent = stat.icon;
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center bg-green-50 rounded-2xl p-8"
-              >
-                <div className="flex justify-center mb-4">
-                  <div className="p-4 bg-green-600 text-white rounded-full">
-                    <IconComponent className="w-8 h-8" />
-                  </div>
-                </div>
-                <div className="text-3xl font-bold text-gray-900 mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-gray-600 font-medium">
-                  {stat.label}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-
         {/* Team */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

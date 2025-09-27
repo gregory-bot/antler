@@ -21,7 +21,7 @@ const Contact = () => {
     
     // Create WhatsApp message
     const whatsappMessage = `Hello Kamsa Poultry!%0A%0AName: ${formData.name}%0AEmail: ${formData.email}%0A%0AMessage: ${formData.message}`;
-    const whatsappUrl = `https://wa.me/254700123456?text=${whatsappMessage}`;
+    const whatsappUrl = `https://wa.me/254748163492?text=${whatsappMessage}`;
     
     // Open WhatsApp
     window.open(whatsappUrl, '_blank');
@@ -68,11 +68,11 @@ const Contact = () => {
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                  <span className="text-gray-700">+254 700 123 456</span>
+                  <span className="text-gray-700">+254 748163492</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                  <span className="text-gray-700">Nairobi, Kenya</span>
+                  <span className="text-gray-700">Sinyolo, Kisumu</span>
                 </div>
               </div>
             </div>

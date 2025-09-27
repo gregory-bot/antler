@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Award, Users, Truck } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const heroImages = [
-    "https://images.pexels.com/photos/1300550/pexels-photo-1300550.jpeg",
-    "https://images.pexels.com/photos/1300551/pexels-photo-1300551.jpeg"
+    "https://i.pinimg.com/736x/b4/ee/83/b4ee8346940988b2257747f2da216e3b.jpg",
+    "https://i.pinimg.com/736x/49/a6/6b/49a66be88d0d9b9c8dcccb1fee940e80.jpg"
   ];
 
-  // Auto-transition images every 5 seconds
+  // Auto-transition images every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 5000);
+    }, 10000);
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
-  const scrollToServices = () => {
-    const element = document.querySelector('#services');
+  const scrollToCatalog = () => {
+    const element = document.querySelector('#catalog');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <section id="home" className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 pt-20">
+    <section id="home" className="min-h-screen bg-green-50 pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
@@ -36,61 +36,40 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
             className="text-center lg:text-left"
           >
-            <motion.div
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-6"
+              className="text-4xl lg:text-4xl text-gray-900 mb-6 leading-tight"
             >
-              <Award className="w-4 h-4 mr-2" />
-              Premium Poultry Solutions
-            </motion.div>
-
-            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Kamsa Poultry
-              <span className="block text-green-600">Excellence</span>
-            </h1>
+            </motion.h1>
             
-            <p className="text-xl lg:text-2xl text-gray-600 mb-8 leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-xl lg:text-2xl text-gray-600 mb-8 leading-relaxed"
+            >
               Leading poultry farm providing premium quality chickens, eggs, and poultry products. 
               Committed to sustainable farming practices and exceptional customer service.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
               <motion.button
-                onClick={scrollToServices}
+                onClick={scrollToCatalog}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg text-lg font-semibold shadow-lg transition-all duration-300 flex items-center justify-center"
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg text-lg font-semibold shadow-lg transition-all duration-300 flex items-center justify-center mx-auto lg:mx-0"
               >
-                Explore Our Services
+                Explore Our Portfolio
                 <ArrowRight className="w-5 h-5 ml-2" />
               </motion.button>
-              
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300"
-              >
-                View Catalog
-              </motion.button>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">500+</div>
-                <div className="text-sm text-gray-600">Happy Customers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">10+</div>
-                <div className="text-sm text-gray-600">Years Experience</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">24/7</div>
-                <div className="text-sm text-gray-600">Support</div>
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Right Images */}
@@ -130,23 +109,6 @@ const Hero = () => {
                   />
                 ))}
               </div>
-
-              {/* Floating Elements */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="absolute -top-4 -right-4 bg-white p-4 rounded-full shadow-lg"
-              >
-                <Users className="w-6 h-6 text-green-600" />
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-                className="absolute -bottom-4 -left-4 bg-white p-4 rounded-full shadow-lg"
-              >
-                <Truck className="w-6 h-6 text-blue-600" />
-              </motion.div>
             </div>
           </motion.div>
         </div>
