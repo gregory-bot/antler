@@ -81,7 +81,7 @@ const MobileNav = () => {
               <div className="flex items-center space-x-3 mb-8 pt-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
                   <img 
-                    src="https://images.pexels.com/photos/1300550/pexels-photo-1300550.jpeg" 
+                    src="https://i.postimg.cc/vTXZpyGy/amsa.jpg" 
                     alt="Kamsa Poultry Logo" 
                     className="w-full h-full object-cover"
                   />

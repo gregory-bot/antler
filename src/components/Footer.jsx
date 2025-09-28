@@ -32,16 +32,13 @@ const Footer = () => {
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
                 <img 
-                  src="https://images.pexels.com/photos/1300550/pexels-photo-1300550.jpeg" 
+                  src="https://i.postimg.cc/vTXZpyGy/amsa.jpg" 
                   alt="Kamsa Poultry Logo" 
                   className="w-full h-full object-cover"
                 />
               </div>
               <span className="text-2xl font-bold">Kamsa Poultry</span>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
-              Premium poultry solutions with a commitment to quality, sustainability, and customer satisfaction.
-            </p>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => {
                 const IconComponent = social.icon;

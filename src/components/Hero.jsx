@@ -7,7 +7,7 @@ const Hero = () => {
   
   const heroImages = [
     "https://i.postimg.cc/vTXZpyGy/amsa.jpg",
-    "https://i.pinimg.com/736x/49/a6/6b/49a66be88d0d9b9c8dcccb1fee940e80.jpg"
+    "https://i.pinimg.com/736x/b4/ee/83/b4ee8346940988b2257747f2da216e3b.jpg"
   ];
 
   // Auto-transition images every 10 seconds
@@ -40,7 +40,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-4xl lg:text-4xl font-bold text-gray-900 mb-6 leading-tight"
+              className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
             >
               Kamsa Poultry
             </motion.h1>
@@ -49,7 +49,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-xl lg:text-2xl font-semibold text-gray-600 mb-8 leading-relaxed"
+              className="text-xl lg:text-2xl text-gray-600 mb-8 leading-relaxed"
             >
               Leading poultry farm providing premium quality chickens, eggs, and poultry products. 
               Committed to sustainable farming practices and exceptional customer service.
@@ -64,7 +64,7 @@ const Hero = () => {
                 onClick={scrollToCatalog}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg text-lg font-semibold shadow-lg transition-all duration-300 flex items-center justify-center mx-auto lg:mx-0"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-lg font-semibold shadow-lg transition-all duration-300 flex items-center justify-center mx-auto lg:mx-0"
               >
                 Explore Our Portfolio
                 <ArrowRight className="w-5 h-5 ml-2" />

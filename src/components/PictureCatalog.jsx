@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye, X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -90,14 +90,39 @@ const PictureCatalog = () => {
   };
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % filteredImages.length);
-    setSelectedImage(filteredImages[(currentImageIndex + 1) % filteredImages.length]);
+    const nextIndex = (currentImageIndex + 1) % filteredImages.length;
+    setCurrentImageIndex(nextIndex);
+    setSelectedImage(filteredImages[nextIndex]);
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + filteredImages.length) % filteredImages.length);
-    setSelectedImage(filteredImages[(currentImageIndex - 1 + filteredImages.length) % filteredImages.length]);
+    const prevIndex = (currentImageIndex - 1 + filteredImages.length) % filteredImages.length;
+    setCurrentImageIndex(prevIndex);
+    setSelectedImage(filteredImages[prevIndex]);
   };
+
+  // Close modal when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectedImage && event.target.classList.contains('modal-backdrop')) {
+        closeModal();
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (selectedImage && event.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [selectedImage]);
 
   return (
     <section id="catalog" className="py-8 sm:py-12 bg-gray-50">
@@ -182,12 +207,12 @@ const PictureCatalog = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+              className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 modal-backdrop"
             >
-              {/* Close Button - Much closer and larger */}
+              {/* Close Button - Fixed positioning */}
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition-all duration-200 z-10 shadow-lg"
+                className="absolute top-16 right-6 bg-red-500 hover:bg-red-600 text-white p-3 rounded-full transition-all duration-200 z-50 shadow-lg"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -195,14 +220,14 @@ const PictureCatalog = () => {
               {/* Navigation Buttons */}
               <button
                 onClick={prevImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-3 rounded-full transition-all duration-200 z-10 shadow-lg"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-3 rounded-full transition-all duration-200 z-50 shadow-lg"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
 
               <button
                 onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-3 rounded-full transition-all duration-200 z-10 shadow-lg"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-900 p-3 rounded-full transition-all duration-200 z-50 shadow-lg"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -213,13 +238,14 @@ const PictureCatalog = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 className="relative w-full max-w-md lg:max-w-2xl bg-white rounded-lg overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
               >
-                {/* Image Container with Better Sizing */}
-                <div className="max-h-[50vh] overflow-hidden flex items-center justify-center bg-gray-100">
+                {/* Image Container with Responsive Sizing */}
+                <div className="max-h-[60vh] overflow-hidden flex items-center justify-center bg-gray-100 p-4">
                   <img
                     src={selectedImage.src}
                     alt={selectedImage.title}
-                    className="max-w-full max-h-full object-scale-down p-4"
+                    className="max-w-full max-h-full object-contain"
                   />
                 </div>
                 
@@ -241,8 +267,8 @@ const PictureCatalog = () => {
                 </div>
               </motion.div>
 
-              {/* Image Indicators - More visible */}
-              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              {/* Image Indicators */}
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-50">
                 {filteredImages.map((_, index) => (
                   <button
                     key={index}

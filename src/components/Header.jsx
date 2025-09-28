@@ -29,7 +29,7 @@ const Header = () => {
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
               <img 
-                src="https://i.pinimg.com/736x/93/e0/b8/93e0b84650ef7f6bcc7b0cd1ebc3d87d.jpg" 
+                src="https://i.postimg.cc/vTXZpyGy/amsa.jpg" 
                 alt="Kamsa Poultry Logo" 
                 className="w-full h-full object-cover"
               />
