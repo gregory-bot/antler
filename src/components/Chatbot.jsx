@@ -1,13 +1,15 @@
+// components/Chatbot.js
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Mic, MicOff, Volume2 } from 'lucide-react';
+import geminiService from '../services/geminiService';
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hello! I'm your Kamsa Poultry assistant. How can I help you today?",
+      text: "Hello! I'm your Kamsa Poultry assistant. I can help you with information about poultry farming, our products, services, and industry trends in Kenya. How can I assist you today?",
       isBot: true,
       timestamp: new Date()
     }
@@ -31,6 +33,8 @@ const Chatbot = () => {
         const transcript = event.results[0][0].transcript;
         setInputText(transcript);
         setIsListening(false);
+        // Auto-send after speech input
+        setTimeout(() => handleSendMessage(transcript), 500);
       };
 
       recognition.current.onerror = () => {
@@ -48,61 +52,62 @@ const Chatbot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Simulate Gemini API call (replace with actual API integration)
-  const callGeminiAPI = async (message) => {
-    // This is a simulation - replace with actual Gemini API call
-    const responses = {
-      'hello': "Hello! Welcome to Kamsa Poultry. How can I assist you today?",
-      'services': "We offer fresh eggs, live chickens, poultry consultation, premium products, training programs, and 24/7 support.",
-      'eggs': "Our fresh eggs are collected daily from free-range chickens. They're premium quality and available for delivery.",
-      'chickens': "We have various breeds of healthy chickens available for meat production and breeding purposes.",
-      'contact': "You can reach us at +254 700 123 456 or email info@kamsapoultry.com. We're located in Nairobi, Kenya.",
-      'prices': "Our prices vary by product and quantity. Please contact us directly for current pricing and bulk discounts.",
-      'delivery': "We offer delivery services within Nairobi and surrounding areas. Delivery fees apply based on location.",
-      'default': "Thank you for your question! For detailed information about our poultry products and services, please contact us at +254 700 123 456 or visit our services section."
-    };
-
-    const lowerMessage = message.toLowerCase();
-    let response = responses.default;
-
-    for (const [key, value] of Object.entries(responses)) {
-      if (lowerMessage.includes(key)) {
-        response = value;
-        break;
-      }
-    }
-
-    return response;
-  };
-
   // Text-to-speech function
   const speakText = (text) => {
     if ('speechSynthesis' in window) {
+      // Stop any ongoing speech
+      speechSynthesis.cancel();
+      
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 0.8;
       utterance.pitch = 1;
       utterance.volume = 0.8;
+      utterance.lang = 'en-US';
+      
+      // Get available voices and try to use a natural one
+      const voices = speechSynthesis.getVoices();
+      const preferredVoice = voices.find(voice => 
+        voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Samantha')
+      );
+      
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+      
       speechSynthesis.speak(utterance);
     }
   };
 
-  const handleSendMessage = async () => {
-    if (!inputText.trim()) return;
+  // Stop speech function
+  const stopSpeech = () => {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+    }
+  };
+
+  const handleSendMessage = async (textFromSpeech = null) => {
+    const messageText = textFromSpeech || inputText;
+    
+    if (!messageText.trim()) return;
 
     const userMessage = {
       id: Date.now(),
-      text: inputText,
+      text: messageText,
       isBot: false,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
-    setInputText('');
+    
+    if (!textFromSpeech) {
+      setInputText('');
+    }
+    
     setIsLoading(true);
 
     try {
-      // Call Gemini API (simulated)
-      const botResponse = await callGeminiAPI(inputText);
+      // Call Gemini API for real-time response
+      const botResponse = await geminiService.chat(messageText);
       
       const botMessage = {
         id: Date.now() + 1,
@@ -113,13 +118,13 @@ const Chatbot = () => {
 
       setMessages(prev => [...prev, botMessage]);
       
-      // Speak the response
+      // Speak the response automatically
       speakText(botResponse);
     } catch (error) {
       console.error('Error calling Gemini API:', error);
       const errorMessage = {
         id: Date.now() + 1,
-        text: "I'm sorry, I'm having trouble responding right now. Please try again later.",
+        text: "I'm sorry, I'm having trouble connecting to our knowledge base right now. Please try again later or contact Kamsa Poultry directly at +254 700 123 456.",
         isBot: true,
         timestamp: new Date()
       };
@@ -148,6 +153,18 @@ const Chatbot = () => {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const clearChat = () => {
+    setMessages([
+      {
+        id: 1,
+        text: "Hello! I'm your Kamsa Poultry assistant. I can help you with information about poultry farming, our products, services, and industry trends in Kenya. How can I assist you today?",
+        isBot: true,
+        timestamp: new Date()
+      }
+    ]);
+    stopSpeech();
   };
 
   return (
@@ -206,9 +223,15 @@ const Chatbot = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold">Kamsa Assistant</h3>
-                  <p className="text-xs text-green-100">Online</p>
+                  <p className="text-xs text-green-100">Powered by Gemini AI</p>
                 </div>
               </div>
+              <button
+                onClick={clearChat}
+                className="text-green-100 hover:text-white text-sm"
+              >
+                Clear
+              </button>
             </div>
 
             {/* Messages */}
@@ -225,14 +248,19 @@ const Chatbot = () => {
                       ? 'bg-gray-100 text-gray-800' 
                       : 'bg-green-600 text-white'
                   }`}>
-                    <p className="text-sm">{message.text}</p>
+                    <p className="text-sm whitespace-pre-wrap">{message.text}</p>
                     {message.isBot && (
-                      <button
-                        onClick={() => speakText(message.text)}
-                        className="mt-2 text-green-600 hover:text-green-700"
-                      >
-                        <Volume2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-xs text-gray-500">
+                          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        <button
+                          onClick={() => speakText(message.text)}
+                          className="text-green-600 hover:text-green-700 ml-2"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     )}
                   </div>
                 </motion.div>
@@ -245,10 +273,13 @@ const Chatbot = () => {
                   className="flex justify-start"
                 >
                   <div className="bg-gray-100 p-3 rounded-2xl">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="flex items-center space-x-2">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
+                      <span className="text-xs text-gray-500">Getting real-time response...</span>
                     </div>
                   </div>
                 </motion.div>
@@ -266,7 +297,7 @@ const Chatbot = () => {
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Type your message..."
+                    placeholder="Ask about poultry farming, products, or services..."
                     className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   />
                 </div>
@@ -283,13 +314,16 @@ const Chatbot = () => {
                 </button>
                 
                 <button
-                  onClick={handleSendMessage}
+                  onClick={() => handleSendMessage()}
                   disabled={!inputText.trim() || isLoading}
                   className="p-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-300 text-white rounded-full transition-colors duration-300"
                 >
                   <Send className="w-5 h-5" />
                 </button>
               </div>
+              <p className="text-xs text-gray-500 mt-2 text-center">
+                {isListening ? 'Listening... Speak now' : 'Press mic to speak or type your question'}
+              </p>
             </div>
           </motion.div>
         )}

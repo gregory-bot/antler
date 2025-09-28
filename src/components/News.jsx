@@ -1,55 +1,154 @@
-import React from 'react';
+// components/News.js
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
+import { Calendar, User, Tag, RefreshCw, Facebook, Twitter, Instagram, Globe } from 'lucide-react';
+import geminiService from '../services/geminiService';
 
 const News = () => {
-  const newsArticles = [
-    {
-      id: 1,
-      title: "Kamsa Poultry Wins Regional Excellence Award",
-      excerpt: "We are proud to announce that Kamsa Poultry has been recognized with the Regional Excellence Award for outstanding contribution to sustainable poultry farming.",
-      image: "https://tse3.mm.bing.net/th/id/OIP.Lt8PkKo5T5Cb4MN_rpwn9QHaEK?rs=1&pid=ImgDetMain&o=7&rm=3",
-      date: "2024-01-15",
-      author: "John Kamsa",
-      category: "Awards",
-      readTime: "3 min read"
-    },
-    {
-      id: 2,
-      title: "New Organic Feed Program Launched",
-      excerpt: "Introducing our new organic feed program designed to enhance the nutritional value of our poultry products while maintaining sustainable farming practices.",
-      image: "https://i.pinimg.com/736x/97/ec/cc/97eccc1314c8eed9e95b85d8bc7a5a54.jpg",
-      date: "2024-01-10",
-      author: "Sarah Kamsa",
-      category: "Innovation",
-      readTime: "4 min read"
-    },
-    {
-      id: 3,
-      title: "Expansion of Farm Facilities Completed",
-      excerpt: "Our state-of-the-art facility expansion is now complete, allowing us to increase production capacity while maintaining our high standards of animal welfare.",
-      image: "https://i.pinimg.com/1200x/cb/57/4a/cb574a60d19a54677721df88df0574c2.jpg",
-      date: "2024-01-05",
-      author: "Operations Team",
-      category: "Expansion",
-      readTime: "5 min read"
-    },
-    {
-      id: 4,
-      title: "Community Outreach Program Success",
-      excerpt: "Our recent community outreach program has successfully trained over 100 local farmers in modern poultry farming techniques and sustainable practices.",
-      image: "https://i.pinimg.com/736x/a7/49/63/a74963e5dfc28d2beb86edff0deeb13d.jpg",
-      date: "2023-12-28",
-      author: "Community Team",
-      category: "Community",
-      readTime: "3 min read"
+  const [newsArticles, setNewsArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(null);
+
+  // Updated default images with your custom images
+  const defaultImages = {
+    'Industry': 'https://i.pinimg.com/736x/b4/ee/83/b4ee8346940988b2257747f2da216e3b.jpg',
+    'Innovation': 'https://i.pinimg.com/1200x/cf/33/74/cf3374df08b5b30c9cc9a7efda9c6fdf.jpg',
+    'Community': 'https://i.pinimg.com/1200x/21/c1/de/21c1de92a5a4abb4ba2dfcf09ef98562.jpg',
+    'Sustainability': 'https://i.pinimg.com/1200x/9d/a6/8d/9da68ddc8d573f8a63786a1c1a7be366.jpg',
+    'Technology': 'https://i.pinimg.com/736x/71/a9/36/71a93619c880382220f3088911012686.jpg',
+    'Awards': 'https://i.pinimg.com/1200x/cf/33/74/cf3374df08b5b30c9cc9a7efda9c6fdf.jpg',
+    'default': 'https://i.pinimg.com/736x/b4/ee/83/b4ee8346940988b2257747f2da216e3b.jpg'
+  };
+
+  const fetchNewsFromGemini = async () => {
+    try {
+      setLoading(true);
+      console.log('Fetching real-time news from Gemini service...');
+      
+      const newsData = await geminiService.fetchAllNews();
+      console.log('Received news data:', newsData);
+      
+      if (newsData && newsData.articles && newsData.articles.length > 0) {
+        // Process and validate articles
+        const processedArticles = newsData.articles.map(article => {
+          // Validate and set image URL
+          let imageUrl = article.image;
+          
+          // Check if the image URL is valid and accessible
+          if (!imageUrl || !isValidImageUrl(imageUrl)) {
+            // Use category-based default image or fallback
+            imageUrl = defaultImages[article.category] || defaultImages.default;
+          }
+          
+          return {
+            ...article,
+            image: imageUrl,
+            date: article.date || new Date().toISOString().split('T')[0],
+            // Ensure all required fields exist
+            id: article.id || `article-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            title: article.title || 'Untitled Article',
+            excerpt: article.excerpt || 'No description available.',
+            author: article.author || 'Industry Source',
+            category: article.category || 'Industry',
+            readTime: article.readTime || '2 min read',
+          };
+        });
+        
+        setNewsArticles(processedArticles);
+        setLastUpdated(new Date());
+        setError(null);
+        console.log('Successfully set real-time articles:', processedArticles.length);
+      } else {
+        setNewsArticles([]);
+        setError('No real-time news available at the moment.');
+      }
+    } catch (err) {
+      console.error('Error in fetchNewsFromGemini:', err);
+      setError('Failed to fetch real-time news. Please try again.');
+      setNewsArticles([]);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  // Function to validate image URLs
+  const isValidImageUrl = (url) => {
+    if (!url) return false;
+    
+    // Check if it's a valid URL format
+    try {
+      const parsedUrl = new URL(url);
+      // Check if it's from a trusted source or has image extension
+      const validDomains = ['i.pinimg.com', 'unsplash.com', 'images.unsplash.com', 'picsum.photos', 'via.placeholder.com'];
+      const hasValidDomain = validDomains.some(domain => parsedUrl.hostname.includes(domain));
+      const hasImageExtension = /\.(jpg|jpeg|png|webp|gif)(\?.*)?$/i.test(url);
+      
+      return hasValidDomain || hasImageExtension;
+    } catch {
+      return false;
+    }
+  };
+
+  // Function to handle image loading errors
+  const handleImageError = (e, category) => {
+    console.log('Image failed to load, using default image for category:', category);
+    e.target.src = defaultImages[category] || defaultImages.default;
+    e.target.onerror = null; // Prevent infinite loop
+  };
+
+  useEffect(() => {
+    fetchNewsFromGemini();
+    
+    // Refresh every 30 minutes for real-time updates
+    const interval = setInterval(fetchNewsFromGemini, 30 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    try {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    } catch (error) {
+      return new Date().toLocaleDateString();
+    }
   };
+
+  const getSourceIcon = (source) => {
+    const sourceMap = {
+      'facebook': <Facebook className="w-4 h-4" />,
+      'twitter': <Twitter className="w-4 h-4" />,
+      'instagram': <Instagram className="w-4 h-4" />,
+      'default': <Globe className="w-4 h-4" />
+    };
+    return sourceMap[source?.toLowerCase()] || sourceMap.default;
+  };
+
+  const getSourceBadge = (source) => (
+    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+      source?.toLowerCase() === 'facebook' ? 'bg-blue-100 text-blue-800' :
+      source?.toLowerCase() === 'twitter' ? 'bg-blue-50 text-blue-600' :
+      source?.toLowerCase() === 'instagram' ? 'bg-pink-100 text-pink-800' :
+      'bg-green-100 text-green-800'
+    }`}>
+      {getSourceIcon(source)}
+      {source || 'Kamsa Poultry'}
+    </span>
+  );
+
+  if (loading) {
+    return (
+      <section id="news" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Fetching real-time news...</p>
+            <p className="text-sm text-gray-500">Checking for latest updates</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="news" className="py-20 bg-gray-50">
@@ -61,78 +160,116 @@ const News = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Latest News
-          </h2>
+          <div className="flex items-center justify-center gap-4 mb-4 flex-wrap">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
+              Real-Time News
+            </h2>
+            <button
+              onClick={fetchNewsFromGemini}
+              disabled={loading}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              {loading ? 'Checking...' : 'Check for News'}
+            </button>
+          </div>
           <div className="w-24 h-1 bg-green-600 mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Stay updated with the latest news, achievements, and developments at Kamsa Poultry Farm.
+            Latest real-time updates from the poultry farming industry
           </p>
+          {lastUpdated && (
+            <p className="text-sm text-gray-500 mt-2">
+              Last checked: {lastUpdated.toLocaleTimeString()}
+            </p>
+          )}
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {newsArticles.map((article, index) => (
-            <motion.article
-              key={article.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {article.category}
-                  </span>
-                </div>
-              </div>
+        {error && (
+          <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-8 text-center">
+            {error}
+          </div>
+        )}
 
-              <div className="p-6">
-                <div className="flex items-center text-sm text-gray-500 mb-3 space-x-4">
-                  <div className="flex items-center">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    {formatDate(article.date)}
-                  </div>
-                  <div className="flex items-center">
-                    <User className="w-4 h-4 mr-1" />
-                    {article.author}
+        {newsArticles.length > 0 ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {newsArticles.map((article, index) => (
+              <motion.article
+                key={article.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                <div className="relative overflow-hidden">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => handleImageError(e, article.category)}
+                    loading="lazy"
+                  />
+                  <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
+                    <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                      {article.category}
+                    </span>
+                    {getSourceBadge(article.source)}
                   </div>
                 </div>
 
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300">
-                  {article.title}
-                </h3>
+                <div className="p-6">
+                  <div className="flex items-center text-sm text-gray-500 mb-3 space-x-4">
+                    <div className="flex items-center">
+                      <Calendar className="w-4 h-4 mr-1" />
+                      {formatDate(article.date)}
+                    </div>
+                    <div className="flex items-center">
+                      <User className="w-4 h-4 mr-1" />
+                      {article.author}
+                    </div>
+                  </div>
 
-                <p className="text-gray-600 mb-4 leading-relaxed">
-                  {article.excerpt}
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300 line-clamp-2">
+                    {article.title}
+                  </h3>
+
+                  <p className="text-gray-600 mb-4 leading-relaxed line-clamp-3">
+                    {article.excerpt}
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-500 flex items-center">
+                      <Tag className="w-4 h-4 mr-1" />
+                      {article.readTime}
+                    </span>
+                    <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">
+                      Live Update
+                    </span>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        ) : (
+          !loading && (
+            <div className="text-center py-12">
+              <div className="bg-white rounded-2xl p-8 max-w-md mx-auto shadow-lg">
+                <div className="text-6xl mb-4">📰</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">No News Available</h3>
+                <p className="text-gray-600 mb-4">
+                  There are no real-time news updates at the moment. 
+                  Check back later for the latest poultry farming news.
                 </p>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500 flex items-center">
-                    <Tag className="w-4 h-4 mr-1" />
-                    {article.readTime}
-                  </span>
-                </div>
+                <button
+                  onClick={fetchNewsFromGemini}
+                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  Check Again
+                </button>
               </div>
-            </motion.article>
-          ))}
-        </div>
-
-        {/* Load More Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-        </motion.div>
+            </div>
+          )
+        )}
       </div>
     </section>
   );
