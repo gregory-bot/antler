@@ -136,7 +136,7 @@ const PictureCatalog = () => {
           className="text-center mb-8"
         >
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-            Egg Catalog
+            Catalog
           </h2>
           <div className="w-20 h-1 bg-green-600 mx-auto mb-4"></div>
           <p className="text-base text-gray-600 max-w-2xl mx-auto">

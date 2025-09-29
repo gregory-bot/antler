@@ -1,7 +1,7 @@
 // components/News.js
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, User, Tag, RefreshCw, Facebook, Twitter, Instagram, Globe } from 'lucide-react';
+import { Calendar, User, Tag, RefreshCw } from 'lucide-react';
 import geminiService from '../services/geminiService';
 
 const News = () => {
@@ -114,28 +114,6 @@ const News = () => {
     }
   };
 
-  const getSourceIcon = (source) => {
-    const sourceMap = {
-      'facebook': <Facebook className="w-4 h-4" />,
-      'twitter': <Twitter className="w-4 h-4" />,
-      'instagram': <Instagram className="w-4 h-4" />,
-      'default': <Globe className="w-4 h-4" />
-    };
-    return sourceMap[source?.toLowerCase()] || sourceMap.default;
-  };
-
-  const getSourceBadge = (source) => (
-    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-      source?.toLowerCase() === 'facebook' ? 'bg-blue-100 text-blue-800' :
-      source?.toLowerCase() === 'twitter' ? 'bg-blue-50 text-blue-600' :
-      source?.toLowerCase() === 'instagram' ? 'bg-pink-100 text-pink-800' :
-      'bg-green-100 text-green-800'
-    }`}>
-      {getSourceIcon(source)}
-      {source || 'Kamsa Poultry'}
-    </span>
-  );
-
   if (loading) {
     return (
       <section id="news" className="py-20 bg-gray-50">
@@ -161,7 +139,7 @@ const News = () => {
           className="text-center mb-16"
         >
           <div className="flex items-center justify-center gap-4 mb-4 flex-wrap">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
+            <h2 className="text-4xl lg:text-3xl font-bold text-gray-900">
               Real-Time News
             </h2>
             <button
@@ -209,11 +187,10 @@ const News = () => {
                     onError={(e) => handleImageError(e, article.category)}
                     loading="lazy"
                   />
-                  <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
+                  <div className="absolute top-4 left-4">
                     <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                       {article.category}
                     </span>
-                    {getSourceBadge(article.source)}
                   </div>
                 </div>
 
@@ -222,10 +199,6 @@ const News = () => {
                     <div className="flex items-center">
                       <Calendar className="w-4 h-4 mr-1" />
                       {formatDate(article.date)}
-                    </div>
-                    <div className="flex items-center">
-                      <User className="w-4 h-4 mr-1" />
-                      {article.author}
                     </div>
                   </div>
 

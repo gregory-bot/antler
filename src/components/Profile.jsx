@@ -35,13 +35,10 @@ const Profile = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
             About Kamsa Poultry
           </h2>
           <div className="w-24 h-1 bg-green-600 mx-auto mb-6"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Learn more about our journey, mission, and the dedicated team behind Kamsa Poultry Farm.
-          </p>
         </motion.div>
 
         {/* Company Overview */}
@@ -58,19 +55,15 @@ const Profile = () => {
               sustainable poultry farming. Over the years, we have grown into one of the region's most 
               trusted suppliers of premium poultry products.
             </p>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Our commitment to quality, animal welfare, and customer satisfaction has been the 
-              cornerstone of our success.
-            </p>
             
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-green-600" />
-                <span className="text-gray-700">+254 748163492</span>
+                <span className="text-gray-700">+254725 164189</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-green-600" />
-                <span className="text-gray-700">info@kamsapoultry.com</span>
+                <span className="text-gray-700">kamsapoultryfarm@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-green-600" />
@@ -87,7 +80,7 @@ const Profile = () => {
             className="relative"
           >
             <img
-              src="https://i.pinimg.com/736x/b4/ee/83/b4ee8346940988b2257747f2da216e3b.jpg"
+              src="https://i.pinimg.com/1200x/cf/33/74/cf3374df08b5b30c9cc9a7efda9c6fdf.jpg"
               alt="Kamsa Poultry Farm"
               className="w-full h-96 object-cover rounded-2xl shadow-lg"
             />
@@ -103,9 +96,6 @@ const Profile = () => {
           className="text-center mb-12"
         >
           <h3 className="text-3xl font-bold text-gray-900 mb-4">Meet Our Team</h3>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Our dedicated team of professionals brings years of experience and passion to everything we do.
-          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">
